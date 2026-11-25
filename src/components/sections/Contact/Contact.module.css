@@ -10,6 +10,7 @@
 }
 
 .layout header {
+  container-type: inline-size;
   padding-inline-end: clamp(16px, 3vw, 40px);
 }
 
@@ -33,9 +34,10 @@
 }
 
 .heading {
-  font-size: clamp(1.5rem, 3vw, 2.625rem);
+  font-size: min(clamp(1.5rem, 3vw, 2.625rem), 11.5cqi);
   font-weight: 900;
   line-height: 1.02;
+  white-space: nowrap;
 }
 
 .heading span {
