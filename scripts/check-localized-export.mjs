@@ -13,7 +13,7 @@ const pages = {
   en: ["BUILD STRENGTH.", "5 out of 5 stars"],
 };
 
-const missingSocialImages = [];
+const productionUrl = "https://axiom-fitness-coaching.vercel.app";
 for (const [locale, [heading, rating]] of Object.entries(pages)) {
   const html = readExport(`${locale}/index.html`);
   assert.ok(html.includes(`<html lang="${locale}"`));
@@ -31,11 +31,15 @@ for (const [locale, [heading, rating]] of Object.entries(pages)) {
     assert.ok(html.includes(tag), tag);
   }
   assert.match(html, /name="robots" content="noindex, follow"/);
-  if (!/property="og:image" content="[^"]*\/opengraph-image\.jpg/.test(html)) {
-    missingSocialImages.push(locale);
-  }
+  const url = `${productionUrl}/${locale}/`;
+  assert.ok(html.includes(`rel="canonical" href="${url}"`));
+  assert.ok(html.includes(`property="og:url" content="${url}"`));
+  assert.ok(html.includes(`rel="alternate" hrefLang="x-default" href="${productionUrl}/ro/"`));
   assert.match(html, /rel="icon" href="\/icon\.svg/);
   for (const language of Object.keys(pages)) {
+    assert.ok(
+      html.includes(`rel="alternate" hrefLang="${language}" href="${productionUrl}/${language}/"`),
+    );
     assert.match(html, new RegExp(`<a[^>]*href="/${language}/"[^>]*hreflang="${language}"`, "i"));
   }
   assert.match(html, new RegExp(`<a[^>]*href="/${locale}/"[^>]*aria-current="page"`));
@@ -44,14 +48,20 @@ for (const [locale, [heading, rating]] of Object.entries(pages)) {
   }
 }
 
-assert.deepEqual(
-  readFileSync("out/opengraph-image.jpg"),
-  readFileSync("src/app/opengraph-image.jpg"),
-);
+for (const path of [...Object.keys(pages).map((locale) => `${locale}/index.html`), "index.html"]) {
+  const html = readExport(path);
+  for (const tag of ['property="og:image"', 'name="twitter:image"']) {
+    assert.ok(
+      html.includes(`${tag} content="${productionUrl}/opengraph-image.jpg"`),
+      `${path}: ${tag}`,
+    );
+  }
+}
+assert.doesNotMatch(readExport("404.html"), /localhost/);
+assert.deepEqual(readFileSync("out/opengraph-image.jpg"), readFileSync("public/opengraph-image.jpg"));
 assert.deepEqual(readFileSync("out/icon.svg"), readFileSync("src/app/icon.svg"));
 assert.deepEqual(
   readFileSync("out/videos/axiom-brand-film.mp4"),
   readFileSync("public/videos/axiom-brand-film.mp4"),
 );
-assert.equal(missingSocialImages.length, 0, `Missing Open Graph image: ${missingSocialImages}`);
 console.log("Localized static export verified for /, /ro/, /ru/, and /en/.");

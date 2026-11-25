@@ -1,6 +1,7 @@
 export const locales = ["ro", "ru", "en"] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = "ro";
+export const productionUrl = "https://axiom-fitness-coaching.vercel.app";
 
 export const languageNames = {
   ro: "Română",

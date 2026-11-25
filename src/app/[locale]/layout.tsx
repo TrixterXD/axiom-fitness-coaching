@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import Footer from "@/components/layout/Footer/Footer";
 import Header from "@/components/layout/Header/Header";
-import { isLocale, locales } from "@/i18n/config";
+import { defaultLocale, isLocale, locales, productionUrl } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import "../globals.css";
 
@@ -35,17 +35,29 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
     metadata: { title, description },
   } = await getDictionary(locale);
 
+  const canonical = `/${locale}/`;
+  const image = "/opengraph-image.jpg";
+
   return {
+    metadataBase: new URL(productionUrl),
     title,
     description,
     robots: { index: false, follow: true },
+    alternates: {
+      canonical,
+      languages: {
+        ...Object.fromEntries(locales.map((language) => [language, `/${language}/`])),
+        "x-default": `/${defaultLocale}/`,
+      },
+    },
     openGraph: {
       title,
       description,
       type: "website",
-      images: [{ url: "/opengraph-image.jpg", width: 1200, height: 630, type: "image/jpeg" }],
+      url: canonical,
+      images: [{ url: image, width: 1200, height: 630, type: "image/jpeg" }],
     },
-    twitter: { title, description, card: "summary_large_image" },
+    twitter: { title, description, card: "summary_large_image", images: [image] },
   };
 }
 

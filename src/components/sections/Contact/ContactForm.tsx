@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type SubmitEvent, useState } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
 import styles from "./Contact.module.css";
 
@@ -20,7 +20,7 @@ export default function ContactForm({
   const [phase, setPhase] = useState<"initial" | "success" | "return">("initial");
   const [errors, setErrors] = useState({ name: "", email: "", service: "", goals: "" });
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     const name = form.querySelector<HTMLInputElement>("#contact-name");
