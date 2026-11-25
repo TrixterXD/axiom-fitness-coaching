@@ -1,31 +1,29 @@
 import Image from "next/image";
+import type { Dictionary } from "@/i18n/dictionaries";
 import BrandFilm from "./BrandFilm";
 import styles from "./Hero.module.css";
 
-export default function Hero() {
+export default function Hero({ text, brand }: { text: Dictionary["hero"]; brand: string }) {
   return (
     <section className={styles.hero} aria-labelledby="hero-heading">
       <div className={styles.backdrop}>
         <Image src="/images/hero/hero-trainer.webp" alt="" fill preload className={styles.photo} />
       </div>
       <div className={`container ${styles.content}`}>
-        <p className={styles.eyebrow}>STRENGTH &amp; CONDITIONING</p>
+        <p className={styles.eyebrow}>{brand}</p>
         <h1 id="hero-heading" className={styles.heading}>
-          BUILD STRENGTH.
+          {text.heading}
           <br />
-          DISCIPLINE.
+          {text.discipline}
           <br />
-          <span>PROGRESS.</span>
+          <span>{text.progress}</span>
         </h1>
-        <p className={styles.description}>
-          Personal training and online coaching built on proven principles, consistency and
-          measurable results.
-        </p>
+        <p className={styles.description}>{text.description}</p>
         <div className={styles.actions}>
           <a className={styles.cta} href="#contact">
-            BOOK A CONSULTATION <span aria-hidden="true">→</span>
+            {text.cta} <span aria-hidden="true">→</span>
           </a>
-          <BrandFilm />
+          <BrandFilm text={text.film} />
         </div>
       </div>
     </section>

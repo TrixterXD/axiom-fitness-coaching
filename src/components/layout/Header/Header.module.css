@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 32px;
+  gap: clamp(12px, 2vw, 32px);
   min-height: 80px;
 }
 
@@ -58,7 +58,23 @@
 .desktopNav {
   display: flex;
   align-items: center;
-  gap: clamp(16px, 3vw, 36px);
+  gap: clamp(16px, 2vw, 36px);
+}
+
+.languages {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.languages a {
+  display: grid;
+  min-width: 34px;
+  min-height: 44px;
+  place-items: center;
+  color: var(--color-text-secondary);
 }
 
 .desktopNav a,
@@ -72,20 +88,31 @@
   color: var(--color-accent-hover);
 }
 
+.languages a:is([aria-current="page"], :hover, :focus-visible) {
+  color: var(--color-accent);
+}
+
 .mobileMenu {
   display: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .bar {
     position: relative;
     display: block;
     min-height: 72px;
   }
 
-  .brand {
+  .bar > .brand {
     min-height: 72px;
-    margin-inline-end: 56px;
+    margin-inline-end: 158px;
+    padding-block: 8px;
+  }
+
+  .languages {
+    position: absolute;
+    inset-block-start: 14px;
+    inset-inline-end: calc(var(--container-padding) + 48px);
   }
 
   .desktopNav {

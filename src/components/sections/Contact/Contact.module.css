@@ -37,7 +37,10 @@
   font-size: min(clamp(1.5rem, 3vw, 2.625rem), 11.5cqi);
   font-weight: 900;
   line-height: 1.02;
-  white-space: nowrap;
+}
+
+.heading:lang(ru) {
+  font-size: min(clamp(1.5rem, 3vw, 2.625rem), 10cqi);
 }
 
 .heading span {

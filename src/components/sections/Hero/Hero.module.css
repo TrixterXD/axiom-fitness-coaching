@@ -34,6 +34,7 @@
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .heading {
@@ -149,6 +150,12 @@
   max-width: 100%;
   max-height: calc(100dvh - 5rem);
   aspect-ratio: auto 9 / 16;
+}
+
+@media (max-width: 420px) {
+  .heading:not(:lang(en)) {
+    font-size: clamp(1.25rem, 6vw, 1.625rem);
+  }
 }
 
 @media (max-width: 900px) {
