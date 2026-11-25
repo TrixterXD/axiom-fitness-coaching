@@ -1,0 +1,78 @@
+.section {
+  padding-block: calc(var(--section-spacing) * 0.75);
+  background-color: var(--color-background);
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: var(--color-accent);
+  font-family: var(--font-heading), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.heading {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-style: italic;
+  font-weight: 900;
+}
+
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: clamp(16px, 3vw, 28px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.benefit {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+}
+
+.benefit + .benefit {
+  padding-inline-start: clamp(12px, 2vw, 24px);
+  border-inline-start: 1px solid var(--color-border);
+}
+
+.benefit:not(:last-child) {
+  padding-inline-end: clamp(12px, 2vw, 24px);
+}
+
+.benefit svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-accent);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.benefit h3 {
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.benefit p {
+  margin-top: 4px;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .benefits {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .benefit + .benefit,
+  .benefit:not(:last-child) {
+    padding-inline: 0;
+    border-inline-start: 0;
+  }
+}
