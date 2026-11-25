@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import type { ReactNode } from "react";
 import Footer from "@/components/layout/Footer/Footer";
@@ -17,9 +17,21 @@ const inter = Inter({
   variable: "--font-body",
 });
 
+const title = "AXIOM — Strength & Conditioning";
+const description =
+  "Personal training and online coaching built on proven principles, consistency and measurable progress. A demonstration website by IVACOV FLOW.";
+
 export const metadata: Metadata = {
-  title: "AXIOM — Strength & Conditioning",
-  description: "Personal training and online fitness coaching.",
+  title,
+  description,
+  robots: { index: false, follow: true },
+  // Add the supplied 1200 × 630 image as src/app/opengraph-image.jpg when available.
+  openGraph: { title, description, type: "website" },
+  twitter: { card: "summary_large_image" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
