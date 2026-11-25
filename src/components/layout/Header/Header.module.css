@@ -1,0 +1,134 @@
+.header {
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  min-height: 80px;
+}
+
+.brand {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-heading), sans-serif;
+  font-size: 28px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.wordmark::before {
+  flex: 0 0 5px;
+  height: 23px;
+  margin-inline-start: 4px;
+  background-color: var(--color-accent);
+  content: "";
+  transform: skewX(-20deg);
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  line-height: 1.2;
+}
+
+.desktopNav,
+.mobileNav {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 36px);
+}
+
+.desktopNav a,
+.mobileNav a {
+  transition: color var(--transition-fast);
+}
+
+.desktopNav a:is(:hover, :focus-visible),
+.mobileNav a:is(:hover, :focus-visible),
+.toggle:is(:hover, :focus-visible) {
+  color: var(--color-accent-hover);
+}
+
+.mobileMenu {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .bar {
+    position: relative;
+    display: block;
+    min-height: 72px;
+  }
+
+  .brand {
+    min-height: 72px;
+    margin-inline-end: 56px;
+  }
+
+  .desktopNav {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: block;
+  }
+
+  .toggle {
+    position: absolute;
+    inset-block-start: 14px;
+    inset-inline-end: var(--container-padding);
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    list-style: none;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+  }
+
+  .toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .hamburger {
+    width: 22px;
+    height: 2px;
+    background-color: currentColor;
+    box-shadow:
+      0 -6px currentColor,
+      0 6px currentColor;
+  }
+
+  .mobileNav {
+    padding-block: 8px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .mobileNav a {
+    display: block;
+    padding-block: 12px;
+  }
+}
