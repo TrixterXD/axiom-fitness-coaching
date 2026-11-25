@@ -1,9 +1,9 @@
-import styles from "./page.module.css";
+import Hero from "@/components/sections/Hero/Hero";
 
 export default function Home() {
   return (
-    <main className={styles.page}>
-      <h1>AXIOM — Strength &amp; Conditioning</h1>
+    <main>
+      <Hero />
     </main>
   );
 }
