@@ -1,4 +1,5 @@
 import Image from "next/image";
+import BrandFilm from "./BrandFilm";
 import styles from "./Hero.module.css";
 
 export default function Hero() {
@@ -20,9 +21,12 @@ export default function Hero() {
           Personal training and online coaching built on proven principles, consistency and
           measurable results.
         </p>
-        <a className={styles.cta} href="#contact">
-          BOOK A CONSULTATION <span aria-hidden="true">→</span>
-        </a>
+        <div className={styles.actions}>
+          <a className={styles.cta} href="#contact">
+            BOOK A CONSULTATION <span aria-hidden="true">→</span>
+          </a>
+          <BrandFilm />
+        </div>
       </div>
     </section>
   );
