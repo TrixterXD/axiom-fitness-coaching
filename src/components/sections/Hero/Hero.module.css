@@ -54,9 +54,16 @@
   color: var(--color-text-primary);
 }
 
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 24px;
+}
+
 .cta {
   display: inline-block;
-  margin-top: 24px;
   padding: 12px 20px;
   border-radius: var(--radius-sm);
   background-color: var(--color-accent);
@@ -68,6 +75,80 @@
 
 .cta:hover {
   background-color: var(--color-accent-hover);
+}
+
+.filmTrigger,
+.filmClose {
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--font-heading), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.filmTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 4px 8px;
+}
+
+.filmTrigger:hover,
+.filmClose:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.playIcon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+}
+
+.playIcon::before {
+  margin-inline-start: 2px;
+  border-block: 5px solid transparent;
+  border-inline-start: 8px solid var(--color-accent);
+  content: "";
+}
+
+:global(html):has(.filmDialog[open]) {
+  overflow: hidden;
+}
+
+.filmDialog {
+  max-width: calc(100% - 2rem);
+  max-height: calc(100dvh - 1rem);
+  padding: 0.5rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background);
+}
+
+.filmDialog::backdrop {
+  background-color: rgb(0 0 0 / 88%);
+}
+
+.filmClose {
+  display: block;
+  min-height: 44px;
+  margin-inline-start: auto;
+  padding-inline: 0.75rem;
+}
+
+.filmVideo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 5rem);
+  aspect-ratio: auto 9 / 16;
 }
 
 @media (max-width: 900px) {
