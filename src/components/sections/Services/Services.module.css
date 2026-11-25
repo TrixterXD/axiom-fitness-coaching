@@ -57,6 +57,8 @@
 
 .content h3 {
   font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
   font-weight: 800;
 }
 

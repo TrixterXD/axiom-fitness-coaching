@@ -1,21 +1,34 @@
 import Link from "next/link";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import brandStyles from "../Header/Header.module.css";
 import styles from "./Footer.module.css";
 
-export default function Footer() {
+export default function Footer({
+  locale,
+  brand,
+  links,
+  text,
+}: {
+  locale: Locale;
+  brand: string;
+  links: { href: string; label: string }[];
+  text: Dictionary["footer"];
+}) {
   return (
     <footer className={styles.footer}>
       <div className="container">
         <div className={styles.bar}>
-          <Link href="/" className={`${brandStyles.brand} ${styles.brand}`}>
+          <Link href={`/${locale}/`} className={`${brandStyles.brand} ${styles.brand}`}>
             <span className={brandStyles.wordmark}>AXIOM</span>
-            <span className={brandStyles.subtitle}>Strength &amp; Conditioning</span>
+            <span className={brandStyles.subtitle}>{brand}</span>
           </Link>
-          <nav aria-label="Footer" className={styles.nav}>
-            <a href="#about">About</a>
-            <a href="#services">Services</a>
-            <a href="#client-stories">Client Stories</a>
-            <a href="#contact">Contact</a>
+          <nav aria-label={text.navigation} className={styles.nav}>
+            {links.map(({ href, label }) => (
+              <a key={href} href={href}>
+                {label}
+              </a>
+            ))}
           </nav>
           <div className={styles.socials}>
             <svg
@@ -46,7 +59,7 @@ export default function Footer() {
         </div>
         <div className={styles.bottom}>
           <p>© 2026 AXIOM</p>
-          <p>Demo website by IVACOV FLOW</p>
+          <p>{text.disclosure}</p>
         </div>
       </div>
     </footer>

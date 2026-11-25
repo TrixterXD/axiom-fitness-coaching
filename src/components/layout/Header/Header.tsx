@@ -1,30 +1,37 @@
 import Link from "next/link";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import styles from "./Header.module.css";
+import LanguageSwitcher from "./LanguageSwitcher";
 import MobileNavigation from "./MobileNavigation";
 
-const links = [
-  { href: "#about", label: "About" },
-  { href: "#services", label: "Services" },
-  { href: "#client-stories", label: "Client Stories" },
-  { href: "#contact", label: "Contact" },
-];
-
-export default function Header() {
+export default function Header({
+  locale,
+  brand,
+  links,
+  navigation,
+}: {
+  locale: Locale;
+  brand: string;
+  links: { href: string; label: string }[];
+  navigation: Dictionary["navigation"];
+}) {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.bar}`}>
-        <Link href="/" className={styles.brand}>
+        <Link href={`/${locale}/`} className={styles.brand}>
           <span className={styles.wordmark}>AXIOM</span>
-          <span className={styles.subtitle}>Strength &amp; Conditioning</span>
+          <span className={styles.subtitle}>{brand}</span>
         </Link>
-        <nav aria-label="Primary" className={styles.desktopNav}>
+        <nav aria-label={navigation.primary} className={styles.desktopNav}>
           {links.map(({ href, label }) => (
             <a key={href} href={href}>
               {label}
             </a>
           ))}
         </nav>
-        <MobileNavigation links={links} />
+        <LanguageSwitcher locale={locale} label={navigation.languages} />
+        <MobileNavigation links={links} label={navigation.primary} toggle={navigation.toggle} />
       </div>
     </header>
   );

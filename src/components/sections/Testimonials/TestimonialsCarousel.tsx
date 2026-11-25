@@ -1,7 +1,8 @@
 "use client";
 
 import { type CSSProperties, useState, useSyncExternalStore } from "react";
-import { testimonials } from "@/data/testimonials";
+import type { Dictionary } from "@/i18n/dictionaries";
+import { formatMessage } from "@/i18n/format";
 import styles from "./Testimonials.module.css";
 
 // Match the responsive track columns in Testimonials.module.css.
@@ -21,7 +22,13 @@ function getPageSize() {
   return window.matchMedia(tablet).matches ? 2 : 3;
 }
 
-export default function TestimonialsCarousel() {
+export default function TestimonialsCarousel({
+  testimonials,
+  labels,
+}: {
+  testimonials: { id: string; name: string; quote: string; rating: number }[];
+  labels: Dictionary["testimonials"]["controls"];
+}) {
   const pageSize = useSyncExternalStore(subscribe, getPageSize, () => 3);
   const [anchor, setAnchor] = useState(0);
   const page = Math.floor(anchor / pageSize);
@@ -49,7 +56,11 @@ export default function TestimonialsCarousel() {
               key={id}
               aria-hidden={index < start || index >= start + pageSize}
             >
-              <span className={styles.stars} role="img" aria-label={`${rating} out of 5 stars`}>
+              <span
+                className={styles.stars}
+                role="img"
+                aria-label={formatMessage(labels.rating, rating)}
+              >
                 {"★".repeat(rating)}
                 {"☆".repeat(5 - rating)}
               </span>
@@ -63,7 +74,7 @@ export default function TestimonialsCarousel() {
         <button
           type="button"
           className={styles.arrow}
-          aria-label="Previous testimonials"
+          aria-label={labels.previous}
           onClick={() => movePage(-1)}
         >
           <span aria-hidden="true">←</span>
@@ -75,7 +86,7 @@ export default function TestimonialsCarousel() {
               key={id}
               type="button"
               className={styles.dot}
-              aria-label={`Show testimonial page ${index + 1} of ${pageCount}`}
+              aria-label={formatMessage(labels.show, index + 1, pageCount)}
               aria-current={page === index ? "true" : undefined}
               onClick={() => setAnchor(index * pageSize)}
             />
@@ -83,14 +94,14 @@ export default function TestimonialsCarousel() {
         <button
           type="button"
           className={styles.arrow}
-          aria-label="Next testimonials"
+          aria-label={labels.next}
           onClick={() => movePage(1)}
         >
           <span aria-hidden="true">→</span>
         </button>
       </div>
       <p className={styles.status} role="status">
-        Testimonial page {page + 1} of {pageCount}
+        {formatMessage(labels.status, page + 1, pageCount)}
       </p>
     </>
   );

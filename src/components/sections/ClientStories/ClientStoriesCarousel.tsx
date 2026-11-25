@@ -2,13 +2,21 @@
 
 import Image from "next/image";
 import { type CSSProperties, useRef, useState } from "react";
-import { clientStories } from "@/data/clientStories";
+import type { Dictionary } from "@/i18n/dictionaries";
+import { formatMessage } from "@/i18n/format";
 import styles from "./ClientStories.module.css";
 
-const count = clientStories.length;
-const wrap = (index: number) => ((index % count) + count) % count;
-
-export default function ClientStoriesCarousel() {
+export default function ClientStoriesCarousel({
+  clientStories,
+  alt,
+  labels,
+}: {
+  clientStories: { id: string; image: string; title: string; description: string }[];
+  alt: string;
+  labels: Dictionary["clientStories"]["controls"];
+}) {
+  const count = clientStories.length;
+  const wrap = (index: number) => ((index % count) + count) % count;
   const [activeIndex, setActiveIndex] = useState(0);
   const touchStart = useRef<{ pointerId: number; x: number; y: number } | null>(null);
   const swiped = useRef(false);
@@ -68,7 +76,7 @@ export default function ClientStoriesCarousel() {
                 <Image
                   className={styles.photo}
                   src={story.image}
-                  alt={story.alt}
+                  alt={alt}
                   width={1000}
                   height={667}
                   loading="lazy"
@@ -83,7 +91,7 @@ export default function ClientStoriesCarousel() {
                   type="button"
                   className={styles.cardButton}
                   tabIndex={-1}
-                  aria-label={`Show story: ${story.title}`}
+                  aria-label={formatMessage(labels.showTitle, story.title)}
                   onClick={(event) => {
                     if (!swiped.current || event.detail === 0) showStory(wrap(index));
                   }}
@@ -97,7 +105,7 @@ export default function ClientStoriesCarousel() {
         <button
           type="button"
           className={styles.arrow}
-          aria-label="Previous client story"
+          aria-label={labels.previous}
           onClick={() => move(-1)}
         >
           <span aria-hidden="true">←</span>
@@ -107,7 +115,7 @@ export default function ClientStoriesCarousel() {
             key={id}
             type="button"
             className={styles.dot}
-            aria-label={`Show story ${index + 1} of ${count}: ${title}`}
+            aria-label={formatMessage(labels.show, index + 1, count, title)}
             aria-current={current === index ? "true" : undefined}
             onClick={() => showStory(index)}
           />
@@ -115,14 +123,14 @@ export default function ClientStoriesCarousel() {
         <button
           type="button"
           className={styles.arrow}
-          aria-label="Next client story"
+          aria-label={labels.next}
           onClick={() => move(1)}
         >
           <span aria-hidden="true">→</span>
         </button>
       </div>
       <p className={styles.status} role="status">
-        Story {current + 1} of {count}: {clientStories[current].title}
+        {formatMessage(labels.status, current + 1, count, clientStories[current].title)}
       </p>
     </>
   );

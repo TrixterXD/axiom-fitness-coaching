@@ -1,9 +1,10 @@
 "use client";
 
 import { useRef } from "react";
+import type { Dictionary } from "@/i18n/dictionaries";
 import styles from "./Hero.module.css";
 
-export default function BrandFilm() {
+export default function BrandFilm({ text }: { text: Dictionary["hero"]["film"] }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -39,12 +40,12 @@ export default function BrandFilm() {
         onClick={openFilm}
       >
         <span className={styles.playIcon} aria-hidden="true" />
-        WATCH FILM
+        {text.watch}
       </button>
       <dialog
         ref={dialogRef}
         className={styles.filmDialog}
-        aria-label="AXIOM brand film"
+        aria-label={text.title}
         onClose={resetFilm}
       >
         <button
@@ -52,7 +53,7 @@ export default function BrandFilm() {
           type="button"
           onClick={() => dialogRef.current?.close()}
         >
-          Close <span aria-hidden="true">×</span>
+          {text.close} <span aria-hidden="true">×</span>
         </button>
         {/* biome-ignore lint/a11y/useMediaCaption: No caption track was supplied with the film. */}
         <video

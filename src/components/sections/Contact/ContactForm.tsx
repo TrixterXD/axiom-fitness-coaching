@@ -1,13 +1,22 @@
 "use client";
 
 import { type FormEvent, useState } from "react";
+import type { Dictionary } from "@/i18n/dictionaries";
 import styles from "./Contact.module.css";
 
 function focusField(element: HTMLElement | null) {
   element?.focus();
 }
 
-export default function ContactForm() {
+export default function ContactForm({
+  text,
+  online,
+  personal,
+}: {
+  text: Dictionary["contact"]["form"];
+  online: string;
+  personal: string;
+}) {
   const [phase, setPhase] = useState<"initial" | "success" | "return">("initial");
   const [errors, setErrors] = useState({ name: "", email: "", service: "", goals: "" });
 
@@ -21,12 +30,12 @@ export default function ContactForm() {
     if (!name || !email || !goals) return;
 
     const next = { name: "", email: "", service: "", goals: "" };
-    if (!name.value.trim()) next.name = "Enter your full name.";
-    else if (name.value.length > 100) next.name = "Use 100 characters or fewer.";
-    if (!email.value.trim()) next.email = "Enter your email address.";
-    else if (email.validity.typeMismatch) next.email = "Enter a valid email address.";
-    if (!service) next.service = "Choose a service.";
-    if (goals.value.length > 1000) next.goals = "Use 1000 characters or fewer.";
+    if (!name.value.trim()) next.name = text.errors.name;
+    else if (name.value.length > 100) next.name = text.errors.nameLength;
+    if (!email.value.trim()) next.email = text.errors.email;
+    else if (email.validity.typeMismatch) next.email = text.errors.emailInvalid;
+    if (!service) next.service = text.errors.service;
+    if (goals.value.length > 1000) next.goals = text.errors.goalsLength;
     setErrors(next);
 
     if (next.name) name.focus();
@@ -39,7 +48,7 @@ export default function ContactForm() {
   return (
     <div className={styles.panel}>
       <p className={styles.status} role="status">
-        {phase === "success" ? "Demo completed successfully. No information was sent." : null}
+        {phase === "success" ? text.success : null}
       </p>
       {phase === "success" ? (
         <button
@@ -48,7 +57,7 @@ export default function ContactForm() {
           ref={focusField}
           onClick={() => setPhase("return")}
         >
-          Return to form
+          {text.back}
         </button>
       ) : (
         // The dialog method prevents network submission even before React hydrates.
@@ -61,7 +70,7 @@ export default function ContactForm() {
         >
           <div className={styles.fields}>
             <div>
-              <label htmlFor="contact-name">Full name</label>
+              <label htmlFor="contact-name">{text.name}</label>
               <input
                 id="contact-name"
                 type="text"
@@ -76,7 +85,7 @@ export default function ContactForm() {
               </p>
             </div>
             <div>
-              <label htmlFor="contact-email">Email</label>
+              <label htmlFor="contact-email">{text.email}</label>
               <input
                 id="contact-email"
                 type="email"
@@ -94,7 +103,7 @@ export default function ContactForm() {
             className={styles.services}
             aria-describedby={errors.service ? "contact-service-error" : undefined}
           >
-            <legend>Interested in</legend>
+            <legend>{text.interests}</legend>
             <div className={styles.options}>
               <label htmlFor="contact-online">
                 <input
@@ -105,7 +114,7 @@ export default function ContactForm() {
                   required
                   aria-invalid={Boolean(errors.service)}
                 />
-                Online Coaching
+                {online}
               </label>
               <label htmlFor="contact-personal">
                 <input
@@ -116,7 +125,7 @@ export default function ContactForm() {
                   required
                   aria-invalid={Boolean(errors.service)}
                 />
-                Personal Training
+                {personal}
               </label>
             </div>
             <p id="contact-service-error" className={styles.error} aria-live="polite">
@@ -126,7 +135,7 @@ export default function ContactForm() {
 
           <div>
             <label htmlFor="contact-goals">
-              Your goals <span>(optional)</span>
+              {text.goals} <span>{text.optional}</span>
             </label>
             <div className={styles.message}>
               <textarea
@@ -142,7 +151,7 @@ export default function ContactForm() {
                   type="submit"
                   aria-describedby="contact-disclosure"
                 >
-                  SEND REQUEST <span aria-hidden="true">→</span>
+                  {text.submit} <span aria-hidden="true">→</span>
                 </button>
               </div>
             </div>
@@ -153,7 +162,7 @@ export default function ContactForm() {
         </form>
       )}
       <p id="contact-disclosure" className={styles.disclosure}>
-        Demo form. No information is transmitted or stored.
+        {text.disclosure}
       </p>
     </div>
   );
