@@ -1,0 +1,131 @@
+.section {
+  padding-block: clamp(24px, 4vw, 40px);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.heading {
+  font-size: clamp(1.375rem, 3vw, 2rem);
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.disclosure {
+  margin-top: 4px;
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+}
+
+.viewport {
+  overflow: clip;
+  margin-top: 20px;
+}
+
+.track {
+  --columns: 3;
+  --gap: clamp(16px, 3vw, 32px);
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - (var(--columns) - 1) * var(--gap)) / var(--columns));
+  gap: var(--gap);
+  transform: translateX(calc(var(--page-offset) * (100% + var(--gap))));
+  animation: reveal var(--transition-fast);
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+  }
+}
+
+.testimonial {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.stars {
+  color: var(--color-accent);
+  letter-spacing: 0.12em;
+}
+
+.quote {
+  margin: 6px 0;
+}
+
+.name {
+  color: var(--color-text-secondary);
+  font-family: var(--font-heading), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.arrow,
+.dot {
+  display: grid;
+  min-width: 28px;
+  min-height: 32px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.arrow {
+  font-size: 1.125rem;
+}
+
+.dot::before {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.arrow:hover,
+.dot:hover,
+.dot[aria-current="true"] {
+  color: var(--color-accent);
+}
+
+.status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .track {
+    --columns: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .track {
+    --columns: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}
